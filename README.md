@@ -25,6 +25,6 @@ cd faster-rcnn.pytorch && mkdir data
 
 ## Example
 Here is an example of adapting from Pascal VOC to Clipart1k:
-1. You can prepare the Pascal VOC datasets from [py-faster-rcnn](https://github.com/rbgirshick/py-faster-rcnn) and the Clipart1k from [naoto0804/cross-domain-detection](https://github.com/naoto0804/cross-domain-detection) in VOC data format.
-2. Shift the source domain through domain shifter. Basically I used a residual generator and a patchGAN discriminator. For the short cut, you can download some examples of shifted domains.
-3.
+1. You can prepare the Pascal VOC datasets from [py-faster-rcnn](https://github.com/rbgirshick/py-faster-rcnn) and the Clipart1k dataset from [cross-domain-detection](https://github.com/naoto0804/cross-domain-detection) in VOC data format.
+2. Shift the source domain through domain shifter. Basically, I used a residual generator and a patchGAN discriminator. For the short cut, you can download some examples of shifted domains (Link) and put these datasets into data folder.
+3. 
