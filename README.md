@@ -22,6 +22,7 @@ cd faster-rcnn.pytorch && mkdir data
 * Python 2.7 or 3.6
 * Pytorch 0.4.0 
 * CUDA 8.0 or higher
+* cython, cffi, opencv-python, scipy, easydict, matplotlib, pyyaml
 
 ## Example
 Here is an example of adapting from Pascal VOC to Clipart1k:
