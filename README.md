@@ -1,4 +1,4 @@
-# Diversify and Match
+# Diversify and Match (Preparation will be complete soon!)
 
 ### Acknowledgment
 
@@ -28,4 +28,17 @@ cd faster-rcnn.pytorch && mkdir data
 Here is an example of adapting from Pascal VOC to Clipart1k:
 1. You can prepare the Pascal VOC datasets from [py-faster-rcnn](https://github.com/rbgirshick/py-faster-rcnn) and the Clipart1k dataset from [cross-domain-detection](https://github.com/naoto0804/cross-domain-detection) in VOC data format.
 2. Shift the source domain through domain shifter. Basically, I used a residual generator and a patchGAN discriminator. For the short cut, you can download some examples of shifted domains (Link) and put these datasets into data folder.
-3. 
+3. Train the object detector through MRL for the Pascal -> Clipart1k adaptation task.
+```
+    python train_DDMRL.py --dataset clipart --cuda
+```
+4. Test the model
+```
+    python test_DDMRL.py --dataset clipart
+````
+
+## Downloads
+* Shifted domains for Clipart1k: Clip_CP, Clip_R, Clip_CPR
+* Shifted domains for Watercolor2k: Wat_CP, Wat_R, Wat_CPR
+* Shifted domains for Comic2k: Com_CP, Com_R, Com_CPR
+* shifted domains for Cityscapes: City_CP, City_R, City_CPR
