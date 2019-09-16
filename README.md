@@ -40,5 +40,5 @@ Here is an example of adapting from Pascal VOC to Clipart1k:
 ## Downloads
 * Shifted domains for Clipart1k: Clip_CP, Clip_R, Clip_CPR
 * Shifted domains for Watercolor2k: Wat_CP, Wat_R, Wat_CPR
-* Shifted domains for Comic2k: Com_CP, Com_R, [Com_CPR](https://drive.google.com/open?id=1oGcSwNpTL-IJ0G3Ao71Ke4ZPfxMYj8In)
+* Shifted domains for Comic2k: [Com_CP](https://drive.google.com/open?id=1JJPRmSUaIW_FC57sguNHFwnuOk9do3Vc), Com_R, [Com_CPR](https://drive.google.com/open?id=1oGcSwNpTL-IJ0G3Ao71Ke4ZPfxMYj8In)
 * shifted domains for Cityscapes: City_CP, City_R, City_CPR
