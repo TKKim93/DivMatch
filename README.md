@@ -13,10 +13,11 @@ cd faster-rcnn.pytorch && mkdir data
 ```
 
 2. Build the Cython modules
-    ```Shell
-    cd DiversifyAndMatch/lib
-    make
-    
+```Shell
+cd DiversifyAndMatch/lib
+make
+``` 
+
 ### Prerequisites
 
 * Python 2.7 or 3.6
