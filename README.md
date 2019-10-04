@@ -25,6 +25,9 @@ make
 * CUDA 8.0 or higher
 * cython, cffi, opencv-python, scipy, easydict, matplotlib, pyyaml
 
+### Pretrained Model
+You can download pretrained VGG and ResNet101 from [jwyang's repository](https://github.com/jwyang/faster-rcnn.pytorch). 
+
 ### Repository Structure
 ```
 DivMatch
@@ -52,20 +55,21 @@ DivMatch
 
 ## Example
 ### All at once
+
+
+### Diversification stage
+### Matching stage
 Here is an example of adapting from Pascal VOC to Clipart1k:
 1. You can prepare the Pascal VOC datasets from [py-faster-rcnn](https://github.com/rbgirshick/py-faster-rcnn) and the Clipart1k dataset from [cross-domain-detection](https://github.com/naoto0804/cross-domain-detection) in VOC data format.
 2. Shift the source domain through domain shifter. Basically, I used a residual generator and a patchGAN discriminator. For the short cut, you can download some examples of shifted domains (Link) and put these datasets into data folder.
 3. Train the object detector through MRL for the Pascal -> Clipart1k adaptation task.
 ```
-    python train_DDMRL.py --dataset clipart --cuda
+    python train.py --dataset clipart --net vgg16 --cuda
 ```
 4. Test the model
 ```
     python test_DDMRL.py --dataset clipart
 ```
-
-### Diversification stage
-### Matching stage
 
 ## Downloads
 * Shifted domains for Clipart1k: [Clip_CP](https://drive.google.com/open?id=1k1Yn1IMwffCFE_MTfC4WvlajWS9a783G), [Clip_R](https://drive.google.com/open?id=1whHjLyqL3-mkYoXXhAFDu7rYzoe9MoM_), [Clip_CPR](https://drive.google.com/open?id=1Tq3pQRwCOezyRtxf69ZVO8fUA_E64Tbt)
