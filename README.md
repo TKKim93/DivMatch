@@ -25,30 +25,29 @@ cd faster-rcnn.pytorch && mkdir data
 * cython, cffi, opencv-python, scipy, easydict, matplotlib, pyyaml
 
 ### Repository Structure
-'''
+```
 DivMatch
-|--cfgs
-|--data
-|--datasets--
-            |-- clipart --
-                         |-- Annotations
-                         |-- ImageSets
-                         |-- JPEGImages             
-            |-- clipart_CP
-            |-- clipart_CPR
-            |-- clipart_R
-            |-- comic
-            |-- comic_CP
-            |-- comic_CPR
-            |-- comic_R
-            |-- Pascal
-            |-- watercolor
-            |-- watercolor_CP
-            |-- watercolor_CPR
-            |-- watercolor_R
-|--lib
-|--models (save location)
-'''
+├── cfgs
+├── data
+├── datasets
+│   ├── clipart
+│   │   ├── Annotations
+│   │   ├── ImageSets
+│   │   ├── JPEGImages
+│   ├── clipart_CP
+│   ├── clipart_CPR
+│   ├── clipart_R
+│   ├── comic
+│   ├── comic_CP
+│   ├── comic_CPR
+│   ├── comic_R
+│   ├── Pascal
+│   ├── watercolor_CP
+│   ├── watercolor_CPR
+│   ├── watercolor_R
+├── lib
+├── models (save location)
+```
 
 ## Example
 ### All at once
