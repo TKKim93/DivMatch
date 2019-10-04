@@ -25,6 +25,7 @@ cd faster-rcnn.pytorch && mkdir data
 * cython, cffi, opencv-python, scipy, easydict, matplotlib, pyyaml
 
 ### Repository Structure
+'''
 DivMatch
 |--cfgs
 |--data
@@ -47,7 +48,7 @@ DivMatch
             |-- watercolor_R
 |--lib
 |--models (save location)
-|--
+'''
 
 ## Example
 ### All at once
@@ -61,7 +62,7 @@ Here is an example of adapting from Pascal VOC to Clipart1k:
 4. Test the model
 ```
     python test_DDMRL.py --dataset clipart
-````
+```
 
 ### Diversification stage
 ### Matching stage
