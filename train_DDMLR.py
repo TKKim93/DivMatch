@@ -15,12 +15,10 @@ import argparse
 import pprint
 import pdb
 import time
-
 import torch
 from torch.autograd import Variable
 import torch.nn as nn
 import torch.optim as optim
-
 import torchvision.transforms as transforms
 from torch.utils.data.sampler import Sampler
 
@@ -29,7 +27,6 @@ from roi_da_data_layer.roibatchLoader import roibatchLoader
 from model.utils.config import cfg, cfg_from_file, cfg_from_list, get_output_dir
 from model.utils.net_utils import weights_normal_init, save_net, load_net, \
       adjust_learning_rate, save_checkpoint, clip_gradient
-
 from model.faster_rcnn.DDMRL_vgg16 import vgg16
 
 def parse_args():
@@ -281,7 +278,7 @@ if __name__ == '__main__':
   if not os.path.exists(output_dir):
       os.makedirs(output_dir)
 
-   sampler_batch5 = sampler(train_size5, args.batch_size)
+  sampler_batch5 = sampler(train_size5, args.batch_size)
 
   dataset5 = roibatchLoader(roidb5, ratio_list5, ratio_index5, args.batch_size, \
                            imdb.num_classes, training=True)
@@ -294,7 +291,6 @@ if __name__ == '__main__':
   im_info = torch.FloatTensor(1)
   num_boxes = torch.LongTensor(1)
   gt_boxes = torch.FloatTensor(1)
-  # need_backprop = torch.FloatTensor(1)
   dc_label = torch.FloatTensor(1)
 
 
@@ -304,7 +300,6 @@ if __name__ == '__main__':
     im_info = im_info.cuda()
     num_boxes = num_boxes.cuda()
     gt_boxes = gt_boxes.cuda()
-    # need_backprop = need_backprop.cuda()
     dc_label = dc_label.cuda()
 
   # make variable
@@ -312,7 +307,6 @@ if __name__ == '__main__':
   im_info = Variable(im_info)
   num_boxes = Variable(num_boxes)
   gt_boxes = Variable(gt_boxes)
-  # need_backprop = Variable(need_backprop)
   dc_label = Variable(dc_label)
 
   if args.cuda:
@@ -375,10 +369,7 @@ if __name__ == '__main__':
 
       if step % iters_per_epoch2 == 0:
           data_target_iter = iter(dataloader2)
-    #  if step % iters_per_epoch6 == 0:
-    #      data_iter6 = iter(dataloader6)
-
-    
+                       
       # SOURCE
       data = next(data_iter)
       im_data.data.resize_(data[0].size()).copy_(data[0])
@@ -398,8 +389,6 @@ if __name__ == '__main__':
       loss = rpn_loss_cls.mean() + rpn_loss_box.mean() \
            + RCNN_loss_cls.mean() + RCNN_loss_bbox.mean() \
            + RCNN_loss_img.mean()
-     # loss_temp += loss.data[0]
-
       loss.backward()
 
       # TARGET
@@ -419,7 +408,6 @@ if __name__ == '__main__':
       rois_label2, RCNN_loss_img2 = fasterRCNN(im_data, im_info, gt_boxes, num_boxes,
                                                need_backprop=need_backprop,  dc_label=dc_label)
       loss = RCNN_loss_img2.mean()
-    #  loss_temp += loss.data[0]
       loss.backward()
 
 
@@ -442,7 +430,6 @@ if __name__ == '__main__':
       loss = rpn_loss_cls3.mean() + rpn_loss_box3.mean() \
              + RCNN_loss_cls3.mean() + RCNN_loss_bbox3.mean() \
              + RCNN_loss_img3.mean()
-    #  loss_temp += loss.data[0]
       loss.backward()
 
       # guide2
@@ -486,7 +473,6 @@ if __name__ == '__main__':
       loss = rpn_loss_cls5.mean() + rpn_loss_box5.mean() \
              + RCNN_loss_cls5.mean() + RCNN_loss_bbox5.mean() \
              + RCNN_loss_img5.mean()
-      # loss_temp += loss.data[0]
       loss.backward()
       
       optimizer.step()
@@ -494,46 +480,9 @@ if __name__ == '__main__':
       fasterRCNN.zero_grad()
 
       
-      if step % args.disp_interval == 0:
-        end = time.time()
-       # if step > 0:
-       #   loss_temp /= args.disp_interval
-
-        # loss_rpn_cls = rpn_loss_cls.data[0]
-        # loss_rpn_box = rpn_loss_box.data[0]
-        # loss_rcnn_cls = RCNN_loss_cls.data[0]
-        # loss_rcnn_box = RCNN_loss_bbox.data[0]
-        # loss_rcnn_img = RCNN_loss_img.data[0]
-        # loss_rcnn_ins = RCNN_loss_ins.mean().data[0]
-    #    loss_rpn_cls2 = rpn_loss_cls2.mean().data[0]
-      #  loss_rpn_box2 = rpn_loss_box2.mean().data[0]
-       # loss_rcnn_cls2 = RCNN_loss_cls2.mean().data[0]
-       # loss_rcnn_box2 = RCNN_loss_bbox2.mean().data[0]
-      #  loss_rcnn_img2 = RCNN_loss_img2.data[0]
-        # loss_rcnn_ins2 = RCNN_loss_ins2.mean().data[0]
-       # loss_rpn_cls3 = rpn_loss_cls3.mean().data[0]
-       # loss_rpn_box3 = rpn_loss_box3.mean().data[0]
-       # loss_rcnn_cls3 = RCNN_loss_cls3.mean().data[0]
-       # loss_rcnn_box3 = RCNN_loss_bbox3.mean().data[0]
-       # loss_rcnn_img3 = RCNN_loss_img3.data[0]
-        # loss_rcnn_img3_G = RCNN_loss_img3_G.data[0]
-
-      #  fg_cnt = torch.sum(rois_label.data.ne(0))
-       # bg_cnt = rois_label.data.numel() - fg_cnt
-
-       # print("[session %d][epoch %2d][iter %4d/%4d] loss: %.4f, lr: %.2e" \
-           #                     % (args.session, epoch, step, iters_per_epoch, loss_temp, lr))
-       # print("\t\t\tfg/bg=(%d/%d), time cost: %f" % (fg_cnt, bg_cnt, end-start))
-       # print("\t\t\trpn_cls: %.4f, rpn_box: %.4f, rcnn_cls: %.4f, rcnn_box %.4f, source_rcnn_img: %4f, source_rcnn_img_G: %4f" \
-          #            % (loss_rpn_cls, loss_rpn_box, loss_rcnn_cls, loss_rcnn_box, loss_rcnn_img, 0))
-       # print("\t\t\trpn_cls: %.4f, rpn_box: %.4f, rcnn_cls: %.4f, rcnn_box %.4f, target_rcnn_img: %4f, target_rcnn_img_G: %4f" \
-        #    % (loss_rpn_cls2, loss_rpn_box2, loss_rcnn_cls2, loss_rcnn_box2, loss_rcnn_img2, 0))
-      #  print("\t\t\trpn_cls: %.4f, rpn_box: %.4f, rcnn_cls: %.4f, rcnn_box %.4f, distor_rcnn_img: %4f, distor_rcnn_img_G: %4f" \
-      #        % (loss_rpn_cls3, loss_rpn_box3, loss_rcnn_cls3, loss_rcnn_box3, loss_rcnn_img3, 0))
-
-
-        loss_temp = 0
-        start = time.time()
+      #f step % args.disp_interval == 0:
+      # end = time.time()
+      # start = time.time()
 
       if (count+1) % 10000 == 0:
         save_name = os.path.join(output_dir,
