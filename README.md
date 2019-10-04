@@ -26,7 +26,7 @@ make
 * cython, cffi, opencv-python, scipy, easydict, matplotlib, pyyaml
 
 ### Pretrained Model
-You can download pretrained VGG and ResNet101 from [jwyang's repository](https://github.com/jwyang/faster-rcnn.pytorch). The default location in my code is './data/pretrained_model/'.
+You can download pretrained VGG and ResNet101 from [jwyang's repository](https://github.com/jwyang/faster-rcnn.pytorch). Default location in my code is './data/pretrained_model/'.
 
 ### Repository Structure
 ```
