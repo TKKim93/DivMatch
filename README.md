@@ -20,7 +20,7 @@ make
 
 ### Prerequisites
 
-* Python 2.7 or 3.6
+* Python 3.6
 * Pytorch 0.4.0 
 * CUDA 8.0 or higher
 * cython, cffi, opencv-python, scipy, easydict, matplotlib, pyyaml
