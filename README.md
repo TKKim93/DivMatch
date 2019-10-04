@@ -1,4 +1,4 @@
-# Diversify and Match (Preparation will be complete soon!)
+# Diversify and Match 
 
 ### Acknowledgment
 
