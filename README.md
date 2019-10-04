@@ -68,7 +68,7 @@ Here is an example of adapting from Pascal VOC to Clipart1k:
 ```
 4. Test the model
 ```
-    python test_DDMRL.py --dataset clipart
+    python test.py --dataset clipart --net vgg16
 ```
 
 ## Downloads
