@@ -8,13 +8,13 @@ The implementation is built on the pytorch implementation of Faster RCNN [jwyang
 ## Preparation
 1. Clone the code and create a folder
 ```
-git clone https://github.com/TKKim93/DiversifyAndMatch.git
+git clone https://github.com/TKKim93/DivMatch.git
 cd faster-rcnn.pytorch && mkdir data
 ```
 
 2. Build the Cython modules
 ```Shell
-cd DiversifyAndMatch/lib
+cd DivMatch/lib
 make
 ``` 
 
