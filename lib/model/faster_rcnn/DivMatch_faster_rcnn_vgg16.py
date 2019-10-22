@@ -173,7 +173,7 @@ class Discriminator(nn.Module):
         self.layers = nn.Sequential(
             nn.Conv2d(512, 512, 1, bias=False),
             nn.ReLU(),
-            nn.Conv2d(512, 4, 1, bias=False)
+            nn.Conv2d(512, 5, 1, bias=False)
         )
         self.layers[0].weight.data.normal_(0, 0.001)
         self.layers[2].weight.data.normal_(0, 0.001)
