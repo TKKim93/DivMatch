@@ -15,7 +15,7 @@ cd faster-rcnn.pytorch && mkdir data
 2. Build the Cython modules
 ```Shell
 cd DivMatch/lib
-make
+sh make.sh
 ``` 
 
 ### Prerequisites
