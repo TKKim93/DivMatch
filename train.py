@@ -303,7 +303,7 @@ if __name__ == '__main__':
             adjust_learning_rate(optimizer, args.lr_decay_gamma)
             lr *= args.lr_decay_gamma
         if (step + 1) % args.disp_interval == 0:
-            print('\n', '[{} iters  / {} iters]'.format(step, args.steps))
+            print('\n', '[{} iters  / {} iters]'.format(step+1, args.steps))
         # SOURCE
         data = next(data_iter)
         need_backprop = torch.from_numpy(np.ones((1,), dtype=np.float32))
