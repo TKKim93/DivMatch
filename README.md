@@ -69,7 +69,7 @@ Here is an example of adapting from Pascal VOC to Clipart1k:
 ```
 4. Test the model
 ```
-    python test.py --dataset clipart --net vgg16
+    python test.py --dataset clipart --net vgg16 --cuda
 ```
 
 ## Downloads
