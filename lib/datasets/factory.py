@@ -27,25 +27,26 @@ for year in ['2007', '2012']:
 # clipart
 for split in ['trainval']:
     for shift in ['CP', 'R', 'CPR']:
-        name = 'clipart_{}_{}'.format(shift, split)
-        __sets[name] = (lambda split=split, year=year: voc_clipart(split, year, devkit_path=os.path.join('datasets/', 'clipart_{}'.format(shift))))
-    name = 'clipart_{}'.format(shift, split)
-
-__sets[name] = (lambda split=split, year=year: voc_clipart(split, year, devkit_path=os.path.join('datasets/', 'clipart_{}'.format(shift))))
+        name = 'clipart{}_{}'.format(shift, split)
+        __sets[name] = (lambda shift=shift, split=split: voc_clipart(shift, split, devkit_path=os.path.join('datasets/', 'clipart_{}'.format(shift))))
+    name = 'clipart_{}'.format(split)
+    __sets[name] = (lambda split=split: voc_clipart('', split, devkit_path=os.path.join('datasets/', 'clipart')))
 
 # watercolor
 for split in ['trainval']:
     for shift in ['CP', 'R', 'CPR']:
-        name = 'watercolor_{}_{}'.format(shift, split)
-        __sets[name] = (lambda split=split, year=year: voc_watercolor(split, year, devkit_path=os.path.join('datasets/', 'watercolor_{}'.format(shift))))
-    name = 'watercolor_{}'.format(shift, split)
+        name = 'watercolor{}_{}'.format(shift, split)
+        __sets[name] = (lambda shift=shift, split=split: voc_watercolor('', split, devkit_path=os.path.join('datasets/', 'watercolor_{}'.format(shift))))
+    name = 'watercolor_{}'.format(split)
+    __sets[name] = (lambda split=split: voc_watercolor('', split, devkit_path=os.path.join('datasets/', 'watercolor')))
 
 # comic
 for split in ['trainval']:
     for shift in ['CP', 'R', 'CPR']:
-        name = 'comics_{}_{}'.format(shift, split)
-        __sets[name] = (lambda split=split, year=year: voc_comic(split, year, devkit_path=os.path.join('datasets/', 'comic_{}'.format(shift))))
-    name = 'comic_{}'.format(shift, split)
+        name = 'comics{}_{}'.format(shift, split)
+        __sets[name] = (lambda shift=shift, split=split: voc_comic('', split, devkit_path=os.path.join('datasets/', 'comic_{}'.format(shift))))
+    name = 'comic_{}'.format(split)
+    __sets[name] = (lambda split=split: voc_comic('', split, devkit_path=os.path.join('datasets/', 'comic')))
 
 # Set up voc_integrated
 for split in ['trainval']:
@@ -57,7 +58,6 @@ def get_imdb(name):
   """Get an imdb (image database) by name."""
   if name not in __sets:
     raise KeyError('Unknown dataset: {}'.format(name))
-  # print(__sets[name]())
   return __sets[name]()
 
 
