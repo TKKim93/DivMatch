@@ -55,9 +55,6 @@ DivMatch
 ```
 
 ## Example
-### All at once
-
-
 ### Diversification stage
 Here are the simplest ways to generate shifted domains via [CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix). Some of them performs unnecessary computations, thus you may revise the I2I code for faster training.
 1. CP shift
