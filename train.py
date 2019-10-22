@@ -332,7 +332,7 @@ if __name__ == '__main__':
         # guide3
         data5 = next(data_iter5)
         need_backprop = torch.from_numpy(np.ones((1,), dtype=np.float32))
-        dc_label_tmp = torch.from_numpy(3 * np.ones((2000, 1), dtype=np.float32))
+        dc_label_tmp = torch.from_numpy(4 * np.ones((2000, 1), dtype=np.float32))
         dc_label.data.resize_(dc_label_tmp.size()).copy_(dc_label_tmp)
 
         loss, rpn_loss_cls, rpn_loss_box, RCNN_loss_cls, RCNN_loss_bbox, DA_loss_dom = input2loss(data5, need_backprop, dc_label)
