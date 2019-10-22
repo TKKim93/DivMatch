@@ -61,16 +61,19 @@ DivMatch
 ### Diversification stage
 Here are the simplest ways to generate shifted domains via [CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix). Some of them performs unnecessary computations, thus you may revise the I2I code for faster training.
 1. CP shift
+
 Change line 177 in models/cycle_gan_model.py to
 ```
 loss_G = self.loss_G_A + self.loss_G_B + self.loss_idt_A + self.loss_idt_B
 ```
 2. R shift
+
 Change line 177 in models/cycle_gan_model.py to
 ```
 loss_G = self.loss_G_A + self.loss_G_B + self.loss_cycle_A + self.loss_cycle_B
 ```
 3. CPR shift
+
 Use the original cyclegan model.
 
 ### Matching stage
