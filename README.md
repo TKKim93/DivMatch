@@ -59,7 +59,7 @@ DivMatch
 
 
 ### Diversification stage
-Here are the simplest ways to generate shifted domains via [CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix) with Pascal VOC & Cliaprt1k. Some of them performs unnecessary computations, thus you may revise the I2I code for faster training.
+Here are the simplest ways to generate shifted domains via [CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix). Some of them performs unnecessary computations, thus you may revise the I2I code for faster training.
 1. CP shift
 Change line 177 in models/cycle_gan_model.py to
 ```
