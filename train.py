@@ -106,7 +106,7 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-def input2loss(data, need_backprop, dc_label):
+def input2loss(data, need_backprop, dc_label, step, disp_interval):
     im_data.data.resize_(data[0].size()).copy_(data[0])
     im_info.data.resize_(data[1].size()).copy_(data[1])
     gt_boxes.data.resize_(data[2].size()).copy_(data[2])
@@ -120,23 +120,27 @@ def input2loss(data, need_backprop, dc_label):
 
     if need_backprop.numpy():
         loss = rpn_loss_cls.mean() + rpn_loss_box.mean() \
-                 + RCNN_loss_cls.mean() + RCNN_loss_bbox.mean() \
-                 + DA_loss_dom.mean()
-        print('rpn_cls: ', '%0.5f' % rpn_loss_cls.cpu().data.numpy(),
-              ' | rpn_box: ', '%0.5f' % rpn_loss_box.cpu().data.numpy(),
-              ' | RCNN_cls: ', '%0.5f' % RCNN_loss_cls.cpu().data.numpy(),
-              ' | RCNN_bbox: ', '%0.5f' % RCNN_loss_bbox.cpu().data.numpy(),
-              ' | DA_dom: ', '%0.5f' % DA_loss_dom.cpu().data.numpy()
-        )
+               + RCNN_loss_cls.mean() + RCNN_loss_bbox.mean() \
+               + DA_loss_dom.mean()
+
+        if (step + 1) % disp_interval == 0:
+            print('rpn_cls: ', '%0.5f' % rpn_loss_cls.cpu().data.numpy(),
+                  ' | rpn_box: ', '%0.5f' % rpn_loss_box.cpu().data.numpy(),
+                  ' | RCNN_cls: ', '%0.5f' % RCNN_loss_cls.cpu().data.numpy(),
+                  ' | RCNN_bbox: ', '%0.5f' % RCNN_loss_bbox.cpu().data.numpy(),
+                  ' | DA_dom: ', '%0.5f' % DA_loss_dom.cpu().data.numpy()
+                  )
         return loss, rpn_loss_cls, rpn_loss_box, RCNN_loss_cls, RCNN_loss_bbox, DA_loss_dom
     else:
         loss = DA_loss_dom.mean()
-        print('rpn_cls: ', '%0.5f' % 0,
-              ' | rpn_box: ', '%0.5f' % 0,
-              ' | RCNN_cls: ', '%0.5f' % 0,
-              ' | RCNN_bbox: ', '%0.5f' % 0,
-              ' | DA_dom: ', '%0.5f' % DA_loss_dom.cpu().data.numpy()
-        )
+
+        if (step + 1) % disp_interval == 0:
+            print('rpn_cls: ', '%0.5f' % 0,
+                  ' | rpn_box: ', '%0.5f' % 0,
+                  ' | RCNN_cls: ', '%0.5f' % 0,
+                  ' | RCNN_bbox: ', '%0.5f' % 0,
+                  ' | DA_dom: ', '%0.5f' % DA_loss_dom.cpu().data.numpy()
+            )
         return loss, DA_loss_dom
 
 if __name__ == '__main__':
@@ -155,6 +159,7 @@ if __name__ == '__main__':
         os.makedirs(output_dir)
 
     if args.dataset in ["clipart", "watercolor", "comic"]:
+        print(args.dataset)
         args.imdb_name = "voc_integrated_trainval"
         args.imdbval_name = args.dataset + "_trainval"
         args.imdb_shifted1_name = args.dataset + "CP_trainval"
@@ -188,12 +193,18 @@ if __name__ == '__main__':
     ####################################################################################################################
     cfg.TRAIN.USE_FLIPPED = True
     cfg.USE_GPU_NMS = args.cuda
-
+    print(args.imdb_name, args.imdbval_name, args.imdb_shifted1_name)
+    print('---------------------------------------------------------------------------------')
     dataloader, train_size, imdb = create_dataloader(args.imdb_name, args)
+    print('---------------------------------------------------------------------------------')
     dataloader2, train_size2, _ = create_dataloader(args.imdbval_name, args)
+    print('---------------------------------------------------------------------------------')
     dataloader3, train_size3, _ = create_dataloader(args.imdb_shifted1_name, args)
+    print('---------------------------------------------------------------------------------')
     dataloader4, train_size4, _ = create_dataloader(args.imdb_shifted2_name, args)
+    print('---------------------------------------------------------------------------------')
     dataloader5, train_size5, _ = create_dataloader(args.imdb_shifted3_name, args)
+    print('---------------------------------------------------------------------------------')
 
     ####################################################################################################################
     ########################################### initialize the tensor holder ###########################################
@@ -291,15 +302,15 @@ if __name__ == '__main__':
         if (step + 1) % 50000 == 0:
             adjust_learning_rate(optimizer, args.lr_decay_gamma)
             lr *= args.lr_decay_gamma
-
-        print('\n', '[{} iters  / {} iters]'.format(step, args.steps))
+        if (step + 1) % args.disp_interval == 0:
+            print('\n', '[{} iters  / {} iters]'.format(step, args.steps))
         # SOURCE
         data = next(data_iter)
         need_backprop = torch.from_numpy(np.ones((1,), dtype=np.float32))
         dc_label_tmp = torch.from_numpy(np.ones((2000, 1), dtype=np.float32))
         dc_label.data.resize_(dc_label_tmp.size()).copy_(dc_label_tmp)
 
-        loss, rpn_loss_cls, rpn_loss_box, RCNN_loss_cls, RCNN_loss_bbox, DA_loss_dom = input2loss(data, need_backprop, dc_label)
+        loss, rpn_loss_cls, rpn_loss_box, RCNN_loss_cls, RCNN_loss_bbox, DA_loss_dom = input2loss(data, need_backprop, dc_label, step, args.disp_interval)
         loss.backward()
 
         # TARGET
@@ -308,7 +319,7 @@ if __name__ == '__main__':
         dc_label_tmp = torch.from_numpy(np.zeros((2000, 1), dtype=np.float32))
         dc_label.data.resize_(dc_label_tmp.size()).copy_(dc_label_tmp)
 
-        loss, DA_loss_dom = input2loss(data, need_backprop, dc_label)
+        loss, DA_loss_dom = input2loss(data, need_backprop, dc_label, step, args.disp_interval)
         loss.backward()
 
         # guide1
@@ -317,7 +328,7 @@ if __name__ == '__main__':
         dc_label_tmp = torch.from_numpy(2 * np.ones((2000, 1), dtype=np.float32))
         dc_label.data.resize_(dc_label_tmp.size()).copy_(dc_label_tmp)
 
-        loss, rpn_loss_cls, rpn_loss_box, RCNN_loss_cls, RCNN_loss_bbox, DA_loss_dom = input2loss(data3, need_backprop, dc_label)
+        loss, rpn_loss_cls, rpn_loss_box, RCNN_loss_cls, RCNN_loss_bbox, DA_loss_dom = input2loss(data3, need_backprop, dc_label, step, args.disp_interval)
         loss.backward()
 
         # guide2
@@ -326,7 +337,7 @@ if __name__ == '__main__':
         dc_label_tmp = torch.from_numpy(3 * np.ones((2000, 1), dtype=np.float32))
         dc_label.data.resize_(dc_label_tmp.size()).copy_(dc_label_tmp)
 
-        loss, rpn_loss_cls, rpn_loss_box, RCNN_loss_cls, RCNN_loss_bbox, DA_loss_dom = input2loss(data4, need_backprop, dc_label)
+        loss, rpn_loss_cls, rpn_loss_box, RCNN_loss_cls, RCNN_loss_bbox, DA_loss_dom = input2loss(data4, need_backprop, dc_label, step, args.disp_interval)
         loss.backward()
 
         # guide3
@@ -335,7 +346,7 @@ if __name__ == '__main__':
         dc_label_tmp = torch.from_numpy(4 * np.ones((2000, 1), dtype=np.float32))
         dc_label.data.resize_(dc_label_tmp.size()).copy_(dc_label_tmp)
 
-        loss, rpn_loss_cls, rpn_loss_box, RCNN_loss_cls, RCNN_loss_bbox, DA_loss_dom = input2loss(data5, need_backprop, dc_label)
+        loss, rpn_loss_cls, rpn_loss_box, RCNN_loss_cls, RCNN_loss_bbox, DA_loss_dom = input2loss(data5, need_backprop, dc_label, step, args.disp_interval)
         loss.backward()
 
         optimizer.step()
