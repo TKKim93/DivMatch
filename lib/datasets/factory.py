@@ -29,6 +29,8 @@ for split in ['trainval']:
     for shift in ['CP', 'R', 'CPR']:
         name = 'clipart{}_{}'.format(shift, split)
         __sets[name] = (lambda shift=shift, split=split: voc_clipart(shift, split, devkit_path=os.path.join('datasets/', 'clipart_{}'.format(shift))))
+
+for split in ['train', 'test', 'trainval']:        
     name = 'clipart_{}'.format(split)
     __sets[name] = (lambda split=split: voc_clipart('', split, devkit_path=os.path.join('datasets/', 'clipart')))
 
@@ -37,6 +39,8 @@ for split in ['trainval']:
     for shift in ['CP', 'R', 'CPR']:
         name = 'watercolor{}_{}'.format(shift, split)
         __sets[name] = (lambda shift=shift, split=split: voc_watercolor('', split, devkit_path=os.path.join('datasets/', 'watercolor_{}'.format(shift))))
+
+for split in ['train', 'test', 'trainval']:
     name = 'watercolor_{}'.format(split)
     __sets[name] = (lambda split=split: voc_watercolor('', split, devkit_path=os.path.join('datasets/', 'watercolor')))
 
@@ -45,6 +49,8 @@ for split in ['trainval']:
     for shift in ['CP', 'R', 'CPR']:
         name = 'comics{}_{}'.format(shift, split)
         __sets[name] = (lambda shift=shift, split=split: voc_comic('', split, devkit_path=os.path.join('datasets/', 'comic_{}'.format(shift))))
+
+for split in ['train', 'test', 'trainval']: 
     name = 'comic_{}'.format(split)
     __sets[name] = (lambda split=split: voc_comic('', split, devkit_path=os.path.join('datasets/', 'comic')))
 
