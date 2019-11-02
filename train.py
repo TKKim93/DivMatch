@@ -319,7 +319,7 @@ if __name__ == '__main__':
         dc_label_tmp = torch.from_numpy(np.zeros((2000, 1), dtype=np.float32))
         dc_label.data.resize_(dc_label_tmp.size()).copy_(dc_label_tmp)
 
-        loss, DA_loss_dom = input2loss(data, need_backprop, dc_label, step, args.disp_interval)
+        loss, DA_loss_dom = input2loss(data2, need_backprop, dc_label, step, args.disp_interval)
         loss.backward()
 
         # guide1
