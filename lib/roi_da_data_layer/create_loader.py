@@ -29,7 +29,7 @@ class sampler(Sampler):
         return self.num_data
 
 def create_dataloader(imdb_name, args):
-    imdb, roidb, ratio_list, ratio_index = combined_roidb(args.imdb_name)
+    imdb, roidb, ratio_list, ratio_index = combined_roidb(imdb_name)
     train_size = len(roidb)
 
     print('{:d} roidb entries'.format(len(roidb)))
