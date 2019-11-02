@@ -161,7 +161,7 @@ if __name__ == '__main__':
     if args.dataset in ["clipart", "watercolor", "comic"]:
         print(args.dataset)
         args.imdb_name = "voc_integrated_trainval"
-        args.imdbval_name = args.dataset + "_trainval"
+        args.imdbval_name = args.dataset + "_train"
         args.imdb_shifted1_name = args.dataset + "CP_trainval"
         args.imdb_shifted2_name = args.dataset + "R_trainval"
         args.imdb_shifted3_name = args.dataset + "CPR_trainval"
